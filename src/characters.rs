@@ -17,7 +17,6 @@ impl Plugin for CharactersPlugin {
             .add_systems(
                 Update,
                 (
-                    spawn::initialize_player_character,
                     spawn::switch_character,
                     movement::move_player,
                     movement::update_jump_state,

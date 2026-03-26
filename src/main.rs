@@ -1,5 +1,6 @@
 mod characters;
 mod map;
+mod state;
 
 use bevy::{
     prelude::*,
@@ -11,6 +12,7 @@ use bevy_procedural_tilemaps::prelude::*;
 use crate::{
     characters::CharactersPlugin,
     map::generate::{map_pixel_dimensions, setup_generator},
+    state::StatePlugin,
 };
 
 fn main() {
@@ -35,6 +37,7 @@ fn main() {
                 .set(ImagePlugin::default_nearest()),
         )
         .add_plugins(ProcGenSimplePlugin::<Cartesian3D, Sprite>::default())
+        .add_plugins(StatePlugin)
         .add_plugins(CharactersPlugin)
         .add_systems(Startup, (setup_camera, setup_generator))
         .run();
