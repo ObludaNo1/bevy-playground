@@ -4,6 +4,7 @@ pub mod config;
 pub mod facing;
 pub mod input;
 pub mod physics;
+pub mod rendering;
 pub mod spawn;
 pub mod state;
 
@@ -33,6 +34,7 @@ impl Plugin for CharactersPlugin {
                     collider::validate_movement,
                     // 4. Physics applies velocity to transform
                     physics::apply_velocity,
+                    rendering::update_player_depth,
                     // 5. Animation ticks frames
                     animation::animations_playback,
                 )
