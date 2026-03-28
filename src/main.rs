@@ -1,6 +1,7 @@
 mod characters;
 mod collision;
 mod config;
+mod inventory;
 mod map;
 mod state;
 
@@ -14,6 +15,7 @@ use bevy_procedural_tilemaps::prelude::*;
 use crate::{
     characters::CharactersPlugin,
     collision::CollisionPlugin,
+    inventory::InventoryPlugin,
     map::generate::{map_pixel_dimensions, setup_generator},
     state::StatePlugin,
 };
@@ -43,6 +45,7 @@ fn main() {
         .add_plugins(StatePlugin)
         .add_plugins(CollisionPlugin)
         .add_plugins(CharactersPlugin)
+        .add_plugins(InventoryPlugin)
         .add_systems(Startup, (setup_camera, setup_generator))
         .run();
 }
