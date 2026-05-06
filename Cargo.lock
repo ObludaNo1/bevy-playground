@@ -337,6 +337,7 @@ dependencies = [
  "bevy",
  "bevy_common_assets",
  "bevy_procedural_tilemaps",
+ "rand 0.8.5",
  "serde",
 ]
 

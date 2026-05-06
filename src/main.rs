@@ -1,9 +1,11 @@
 mod camera;
 mod characters;
 mod collision;
+mod combat;
 mod config;
 mod inventory;
 mod map;
+mod particles;
 mod state;
 
 use bevy::{
@@ -15,7 +17,8 @@ use bevy_procedural_tilemaps::prelude::*;
 
 use crate::{
     camera::CameraPlugin, characters::CharactersPlugin, collision::CollisionPlugin,
-    inventory::InventoryPlugin, map::generate::setup_generator, state::StatePlugin,
+    combat::CombatPlugin, inventory::InventoryPlugin, map::generate::setup_generator,
+    particles::ParticlesPlugin, state::StatePlugin,
 };
 
 fn main() {
@@ -44,5 +47,7 @@ fn main() {
         .add_plugins(CharactersPlugin)
         .add_plugins(InventoryPlugin)
         .add_systems(Startup, setup_generator)
+        .add_plugins(CombatPlugin)
+        .add_plugins(ParticlesPlugin)
         .run();
 }
