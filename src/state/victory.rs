@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 
 #[derive(Component)]
-pub struct GameOverScreen;
+pub struct VictoryScreen;
 
-pub fn spawn_game_over_screen(mut commands: Commands) {
+pub fn spawn_victory_screen(mut commands: Commands) {
     commands
         .spawn((
-            GameOverScreen,
+            VictoryScreen,
             Node {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
@@ -18,7 +18,7 @@ pub fn spawn_game_over_screen(mut commands: Commands) {
         ))
         .with_children(|parent| {
             parent.spawn((
-                Text::new("GAME OVER\n\nPress R to restart"),
+                Text::new("WELL DONE YOUNG PADAWAN!\n\nPress R to restart"),
                 TextFont {
                     font_size: 48.0,
                     ..default()
@@ -28,15 +28,12 @@ pub fn spawn_game_over_screen(mut commands: Commands) {
             ));
         });
 
-    info!("Game over screen spawned");
+    info!("Victory screen spawned");
 }
 
-pub fn despawn_game_over_screen(
-    mut commands: Commands,
-    query: Query<Entity, With<GameOverScreen>>,
-) {
+pub fn despawn_victory_screen(mut commands: Commands, query: Query<Entity, With<VictoryScreen>>) {
     for entity in query.iter() {
         commands.entity(entity).despawn();
     }
-    info!("Game over screen despawned");
+    info!("Victory screen despawned");
 }

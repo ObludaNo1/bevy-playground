@@ -1,7 +1,9 @@
+mod ending;
 mod game_over;
 mod game_state;
 mod loading;
 mod pause;
+mod victory;
 
 use crate::characters::config::CharactersList;
 use crate::characters::spawn::CharactersListResource;
@@ -34,16 +36,25 @@ impl Plugin for StatePlugin {
                 OnEnter(GameState::GameOver),
                 game_over::spawn_game_over_screen,
             )
+            .add_systems(OnEnter(GameState::Victory), victory::spawn_victory_screen)
             .add_systems(
                 OnExit(GameState::GameOver),
                 (
                     game_over::despawn_game_over_screen,
-                    game_over::cleanup_game_world,
+                    ending::cleanup_game_world,
                 ),
             )
             .add_systems(
+                OnExit(GameState::Victory),
+                (victory::despawn_victory_screen, ending::cleanup_game_world),
+            )
+            .add_systems(
                 Update,
-                game_over::handle_restart_input.run_if(in_state(GameState::GameOver)),
+                ending::handle_restart_input.run_if(in_state(GameState::GameOver)),
+            )
+            .add_systems(
+                Update,
+                ending::handle_restart_input.run_if(in_state(GameState::Victory)),
             );
     }
 }

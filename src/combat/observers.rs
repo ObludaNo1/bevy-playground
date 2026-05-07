@@ -2,6 +2,7 @@
 use super::events::{EntityDeath, ProjectileHit};
 use super::health::Health;
 use crate::characters::input::Player;
+use crate::enemy::components::Enemy;
 use crate::state::GameState;
 use bevy::prelude::*;
 
@@ -28,17 +29,31 @@ pub fn on_entity_death(
     death: On<EntityDeath>,
     mut commands: Commands,
     players: Query<(), With<Player>>,
+    enemies: Query<(), With<Enemy>>,
     mut next_state: ResMut<NextState<GameState>>,
 ) {
     let entity = death.entity;
     let is_player = players.get(entity).is_ok();
+    let is_enemy = enemies.get(entity).is_ok();
 
     info!("Entity {:?} defeated!", death.entity);
     commands.entity(death.entity).despawn();
 
-    // Add this line
     if is_player {
         info!("Player defeated! Game Over.");
         next_state.set(GameState::GameOver);
+    }
+
+    // Why `enemies.iter().count() <= 1` is safe for simultaneous deaths
+    //
+    // `commands.entity(...).despawn()` and `commands.trigger(EntityDeath { ... })` are both
+    // deferred — they are queued and flushed one at a time. Bevy flushes each triggered observer's
+    // own commands before processing the next queued trigger, so two deaths triggered on the same
+    // frame are handled sequentially: by the time the second `EntityDeath` observer runs, the first
+    // enemy is already despawned. The count is therefore always accurate.
+    if is_enemy && enemies.iter().count() <= 1 {
+        // This is the last enemy (despawn is deferred, so it still appears in the query)
+        info!("All enemies defeated! Victory!");
+        next_state.set(GameState::Victory);
     }
 }
