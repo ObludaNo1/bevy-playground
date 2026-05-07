@@ -2,7 +2,7 @@ use super::components::{AIBehavior, Enemy, EnemyCombat, EnemyPath};
 use crate::characters::{
     animation::{AnimationController, AnimationTimer, DEFAULT_ANIMATION_FRAME_TIME},
     collider::Collider,
-    config::{CharacterEntry, CharactersList},
+    config::CharactersList,
     facing::Facing,
     physics::Velocity,
     spawn::{CharactersListResource, get_valid_spawn_position},
@@ -10,7 +10,6 @@ use crate::characters::{
 };
 use crate::collision::CollisionMap;
 use crate::config::enemy::{ENEMY_SCALE, ENEMY_Z_POSITION};
-use crate::config::player::COLLIDER_RADIUS;
 use bevy::prelude::*;
 
 /// Spawn an enemy at the given position

@@ -3,7 +3,7 @@ mod loading;
 mod pause;
 
 use crate::characters::config::CharactersList;
-use crate::characters::spawn::{self, CharactersListResource};
+use crate::characters::spawn::CharactersListResource;
 use bevy::prelude::*;
 
 pub use game_state::GameState;

@@ -58,7 +58,7 @@ pub fn spawn_particle(
     rng: &mut rand::rngs::ThreadRng,
     meshes: &mut ResMut<Assets<Mesh>>,
     materials: &mut ResMut<Assets<ParticleMaterial>>,
-    owner: Option<Entity>,
+    _owner: Option<Entity>,
     _particle_index: u32,
 ) {
     // Calculate randomized values

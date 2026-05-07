@@ -6,7 +6,6 @@ pub struct Particle {
     pub velocity: Vec3,        // Movement speed and direction (units/sec)
     pub lifetime: f32,         // Remaining time before death (seconds)
     pub max_lifetime: f32,     // Original lifetime for progress calculation
-    pub scale: f32,            // Current size multiplier
     pub angular_velocity: f32, // Rotation speed (radians/sec)
     pub acceleration: Vec3,    // Forces like gravity (units/sec²)
     // Color curve support (start → mid → end)
@@ -24,7 +23,6 @@ impl Particle {
             velocity,
             lifetime,
             max_lifetime: lifetime,
-            scale,
             angular_velocity: 0.0,
             acceleration: Vec3::ZERO,
             start_color,
