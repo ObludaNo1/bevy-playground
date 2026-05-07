@@ -38,8 +38,9 @@ impl Plugin for CharactersPlugin {
                     input::update_jump_state,
                     // 2. State changes trigger animation updates
                     animation::on_state_change_update_animation,
-                    // 3. Collision validation adjusts velocity  <-- Line update alert!
+                    // 3. Collision validation adjusts velocity
                     collider::validate_movement,
+                    collider::resolve_entity_collisions,
                     // 4. Physics applies velocity to transform
                     physics::apply_velocity,
                     rendering::update_character_depth,
