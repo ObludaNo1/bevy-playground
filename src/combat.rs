@@ -3,8 +3,8 @@ pub mod power_type;
 pub mod systems;
 
 pub use player_combat::PlayerCombat;
-pub use power_type::{PowerType, PowerVisuals};
-pub use systems::{ProjectileEffect, debug_switch_power, handle_power_input};
+pub use power_type::PowerType;
+pub use systems::{debug_switch_power, handle_power_input};
 
 use bevy::prelude::*;
 

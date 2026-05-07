@@ -49,7 +49,7 @@ pub fn handle_power_input(
     info!("{:?} projectile fired!", combat.power_type);
 }
 
-fn spawn_projectile(
+pub fn spawn_projectile(
     commands: &mut Commands,
     position: Vec3,
     power_type: PowerType,

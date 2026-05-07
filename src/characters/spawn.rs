@@ -5,8 +5,9 @@ use crate::characters::facing::Facing;
 use crate::characters::input::Player;
 use crate::characters::physics::Velocity;
 use crate::characters::state::CharacterState;
+use crate::collision::CollisionMap;
 use crate::combat::PlayerCombat;
-use crate::config::player::{PLAYER_SCALE, PLAYER_Z_POSITION};
+use crate::config::player::{COLLIDER_RADIUS, PLAYER_SCALE, PLAYER_Z_POSITION};
 use bevy::prelude::*;
 
 #[derive(Resource, Default)]
@@ -18,6 +19,10 @@ pub struct CurrentCharacterIndex {
 pub struct CharactersListResource {
     pub handle: Handle<CharactersList>,
 }
+
+/// Resource to track if player has been spawned (prevents spawning multiple times)
+#[derive(Resource, Default, PartialEq, Eq)]
+pub struct PlayerSpawned(pub bool);
 
 /// Create a texture atlas layout for a character
 fn create_character_atlas_layout(
@@ -34,7 +39,9 @@ fn create_character_atlas_layout(
         None,
     ))
 }
-pub fn spawn_player(
+
+/// Load character assets at startup (before collision map is built)
+pub fn load_character_assets(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut character_index: ResMut<CurrentCharacterIndex>,
@@ -51,57 +58,96 @@ pub fn spawn_player(
     // Initialize with first character
     character_index.index = 0;
 
-    // Spawn player entity (will be initialized once asset loads)
-    commands.spawn((
-        Player,
-        Transform::from_translation(Vec3::new(0.0, 0.0, PLAYER_Z_POSITION))
-            .with_scale(Vec3::splat(PLAYER_SCALE)),
-        Sprite::default(),
-    ));
+    info!("Character assets loading started");
 }
 
-pub fn initialize_player_character(
+/// Get a valid spawn position, checking collision map and adjusting if needed
+pub fn get_valid_spawn_position(collision_map: &CollisionMap, desired_pos: Vec2) -> Vec2 {
+    // Use the same radius as the runtime collision system
+    if collision_map.is_circle_clear(desired_pos, COLLIDER_RADIUS) {
+        return desired_pos;
+    }
+
+    // Find nearest position where the full collider circle is clear
+    if let Some(clear_pos) = collision_map.find_nearest_clear_position(desired_pos, COLLIDER_RADIUS)
+    {
+        info!(
+            "Adjusted player spawn from {:?} to {:?} (was on obstacle)",
+            desired_pos, clear_pos
+        );
+        return clear_pos;
+    }
+
+    // Fallback to original
+    warn!(
+        "Could not find walkable spawn position near {:?}",
+        desired_pos
+    );
+    desired_pos
+}
+
+/// Spawn player at a valid position AFTER collision map is built
+pub fn spawn_player_at_valid_position(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mut atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     characters_lists: Res<Assets<CharactersList>>,
     character_index: Res<CurrentCharacterIndex>,
     characters_list_res: Option<Res<CharactersListResource>>,
-    mut query: Query<Entity, (With<Player>, Without<AnimationController>)>,
+    collision_map: Option<Res<CollisionMap>>,
+    mut player_spawned: ResMut<PlayerSpawned>,
 ) {
+    // Wait for collision map
+    let Some(collision_map) = collision_map else {
+        return;
+    };
+
+    // Wait for character list resource
     let Some(characters_list_res) = characters_list_res else {
         return;
     };
 
-    for entity in query.iter_mut() {
-        let Some(characters_list) = characters_lists.get(&characters_list_res.handle) else {
-            continue;
-        };
+    // Get the character list asset
+    let Some(characters_list) = characters_lists.get(&characters_list_res.handle) else {
+        return;
+    };
 
-        let Some(character_entry) = characters_list.characters.get(character_index.index) else {
-            continue;
-        };
+    let Some(character_entry) = characters_list.characters.get(character_index.index) else {
+        warn!("Invalid character index: {}", character_index.index);
+        return;
+    };
 
-        let texture = asset_server.load(&character_entry.texture_path);
-        let layout = create_character_atlas_layout(&mut atlas_layouts, character_entry);
+    // Calculate valid spawn position
+    let desired_pos = Vec2::new(0.0, 0.0);
+    let valid_pos = get_valid_spawn_position(&collision_map, desired_pos);
 
-        let sprite = Sprite::from_atlas_image(texture, TextureAtlas { layout, index: 0 });
+    // Create sprite
+    let texture = asset_server.load(&character_entry.texture_path);
+    let layout = create_character_atlas_layout(&mut atlas_layouts, character_entry);
+    let sprite = Sprite::from_atlas_image(texture, TextureAtlas { layout, index: 0 });
 
-        commands.entity(entity).insert((
-            AnimationController::default(),
-            CharacterState::default(),
-            Velocity::default(),
-            Facing::default(),
-            Collider::default(),
-            PlayerCombat::default(),
-            AnimationTimer(Timer::from_seconds(
-                DEFAULT_ANIMATION_FRAME_TIME,
-                TimerMode::Repeating,
-            )),
-            character_entry.clone(),
-            sprite,
-        ));
-    }
+    // Spawn player with all components at valid position
+    commands.spawn((
+        Player,
+        Transform::from_translation(Vec3::new(valid_pos.x, valid_pos.y, PLAYER_Z_POSITION))
+            .with_scale(Vec3::splat(PLAYER_SCALE)),
+        sprite,
+        AnimationController::default(),
+        CharacterState::default(),
+        Velocity::default(),
+        Facing::default(),
+        Collider::default(),
+        PlayerCombat::default(),
+        AnimationTimer(Timer::from_seconds(
+            DEFAULT_ANIMATION_FRAME_TIME,
+            TimerMode::Repeating,
+        )),
+        character_entry.clone(),
+    ));
+
+    // Mark player as spawned
+    player_spawned.0 = true;
+    info!("Player spawned at validated position {:?}", valid_pos);
 }
 
 pub fn switch_character(

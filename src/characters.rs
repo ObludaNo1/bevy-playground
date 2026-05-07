@@ -12,7 +12,7 @@ use bevy::prelude::*;
 use bevy_common_assets::ron::RonAssetPlugin;
 use config::CharactersList;
 
-use crate::state::GameState;
+use crate::{characters::spawn::PlayerSpawned, collision::CollisionMapBuilt, state::GameState};
 
 pub struct CharactersPlugin;
 
@@ -20,7 +20,15 @@ impl Plugin for CharactersPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(RonAssetPlugin::<CharactersList>::new(&["characters.ron"]))
             .init_resource::<spawn::CurrentCharacterIndex>()
-            .add_systems(Startup, spawn::spawn_player)
+            .init_resource::<PlayerSpawned>()
+            .add_systems(Startup, spawn::load_character_assets)
+            .add_systems(
+                Update,
+                spawn::spawn_player_at_valid_position
+                    .run_if(resource_equals(CollisionMapBuilt(true)))
+                    .run_if(resource_equals(PlayerSpawned(false)))
+                    .run_if(in_state(GameState::Playing)),
+            )
             .add_systems(
                 Update,
                 (
@@ -34,7 +42,7 @@ impl Plugin for CharactersPlugin {
                     collider::validate_movement,
                     // 4. Physics applies velocity to transform
                     physics::apply_velocity,
-                    rendering::update_player_depth,
+                    rendering::update_character_depth,
                     // 5. Animation ticks frames
                     animation::animations_playback,
                 )
