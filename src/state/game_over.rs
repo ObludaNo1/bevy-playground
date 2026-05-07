@@ -73,8 +73,6 @@ pub fn cleanup_game_world(
     mut player_spawned: ResMut<PlayerSpawned>,
     mut enemies_spawned: ResMut<EnemiesSpawned>,
 ) {
-    let mut count = 0;
-
     for entity in enemies.iter() {
         commands.entity(entity).despawn();
     }
