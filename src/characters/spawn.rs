@@ -7,6 +7,7 @@ use crate::characters::physics::Velocity;
 use crate::characters::state::CharacterState;
 use crate::collision::CollisionMap;
 use crate::combat::PlayerCombat;
+use crate::combat::health::Health;
 use crate::config::player::{COLLIDER_RADIUS, PLAYER_SCALE, PLAYER_Z_POSITION};
 use bevy::prelude::*;
 
@@ -142,6 +143,7 @@ pub fn spawn_player_at_valid_position(
             DEFAULT_ANIMATION_FRAME_TIME,
             TimerMode::Repeating,
         )),
+        Health::new(character_entry.max_health),
         character_entry.clone(),
     ));
 

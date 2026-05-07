@@ -11,7 +11,6 @@ pub enum PowerType {
     Poison,
 }
 
-/// Visual configuration for a power - decoupled from behavior
 #[derive(Clone)]
 pub struct PowerVisuals {
     pub primary: ParticleConfig,
@@ -28,6 +27,25 @@ impl PowerType {
             PowerType::Arcane => Self::arcane_visuals(direction),
             PowerType::Shadow => Self::shadow_visuals(direction),
             PowerType::Poison => Self::poison_visuals(direction),
+        }
+    }
+
+    pub fn damage(&self) -> f32 {
+        match self {
+            PowerType::Fire => 25.0,
+            PowerType::Arcane => 35.0,
+            PowerType::Shadow => 20.0,
+            PowerType::Poison => 15.0,
+        }
+    }
+
+    /// Hitbox collision radius. Larger for powers that spread visually.
+    pub fn hitbox_radius(&self) -> f32 {
+        match self {
+            PowerType::Fire => 30.0,
+            PowerType::Arcane => 18.0,
+            PowerType::Shadow => 15.0,
+            PowerType::Poison => 25.0,
         }
     }
 

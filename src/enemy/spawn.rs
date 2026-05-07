@@ -1,15 +1,18 @@
 use super::components::{AIBehavior, Enemy, EnemyCombat, EnemyPath};
-use crate::characters::{
-    animation::{AnimationController, AnimationTimer, DEFAULT_ANIMATION_FRAME_TIME},
-    collider::Collider,
-    config::CharactersList,
-    facing::Facing,
-    physics::Velocity,
-    spawn::{CharactersListResource, get_valid_spawn_position},
-    state::CharacterState,
-};
 use crate::collision::CollisionMap;
 use crate::config::enemy::{ENEMY_SCALE, ENEMY_Z_POSITION};
+use crate::{
+    characters::{
+        animation::{AnimationController, AnimationTimer, DEFAULT_ANIMATION_FRAME_TIME},
+        collider::Collider,
+        config::CharactersList,
+        facing::Facing,
+        physics::Velocity,
+        spawn::{CharactersListResource, get_valid_spawn_position},
+        state::CharacterState,
+    },
+    combat::health::Health,
+};
 use bevy::prelude::*;
 
 /// Spawn an enemy at the given position
@@ -62,6 +65,7 @@ pub fn spawn_enemy(
                 DEFAULT_ANIMATION_FRAME_TIME,
                 TimerMode::Repeating,
             )),
+            Health::new(character_entry.max_health),
             character_entry.clone(),
         ))
         .id();
