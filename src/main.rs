@@ -11,19 +11,24 @@ mod state;
 
 use bevy::{
     prelude::*,
-    window::{Window, WindowMode, WindowPlugin},
+    window::{MonitorSelection, Window, WindowMode, WindowPlugin},
 };
-use bevy_procedural_tilemaps::prelude::*;
 
 use crate::{
-    camera::CameraPlugin, characters::CharactersPlugin, collision::CollisionPlugin,
-    combat::CombatPlugin, enemy::EnemyPlugin, inventory::InventoryPlugin,
-    map::generate::setup_generator, particles::ParticlesPlugin, state::StatePlugin,
+    camera::CameraPlugin,
+    characters::CharactersPlugin,
+    collision::CollisionPlugin,
+    combat::CombatPlugin,
+    enemy::EnemyPlugin,
+    inventory::InventoryPlugin,
+    map::generate::{poll_map_generation, setup_generator},
+    particles::ParticlesPlugin,
+    state::{GameState, StatePlugin},
 };
 
 fn main() {
     App::new()
-        .insert_resource(ClearColor(Color::WHITE))
+        .insert_resource(ClearColor(Color::BLACK))
         .add_plugins(
             DefaultPlugins
                 .set(AssetPlugin {
@@ -40,7 +45,6 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
         )
-        .add_plugins(ProcGenSimplePlugin::<Cartesian3D, Sprite>::default())
         .add_plugins(StatePlugin)
         .add_plugins(CameraPlugin)
         .add_plugins(CollisionPlugin)
@@ -50,5 +54,9 @@ fn main() {
         .add_systems(Startup, setup_generator)
         .add_plugins(CombatPlugin)
         .add_plugins(ParticlesPlugin)
+        .add_systems(
+            Update,
+            poll_map_generation.run_if(in_state(GameState::Loading)),
+        )
         .run();
 }

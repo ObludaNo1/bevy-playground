@@ -7,7 +7,7 @@ use crate::{
         map::CollisionMap,
         tile_type::{TileMarker, TileType},
     },
-    config::map::{GRID_X, GRID_Y, TILE_SIZE},
+    config::map::{TILE_SIZE, TOTAL_GRID_X, TOTAL_GRID_Y},
 };
 
 /// Resource to track if collision map has been built.
@@ -27,8 +27,8 @@ pub fn build_collision_map(
     };
 
     // Calculate grid origin (centered map)
-    let grid_origin_x = -TILE_SIZE * GRID_X as f32 / 2.0;
-    let grid_origin_y = -TILE_SIZE * GRID_Y as f32 / 2.0;
+    let grid_origin_x = -TILE_SIZE * TOTAL_GRID_X as f32 / 2.0;
+    let grid_origin_y = -TILE_SIZE * TOTAL_GRID_Y as f32 / 2.0;
 
     // Track bounds and layer info
     let (mut min_x, mut max_x) = (i32::MAX, i32::MIN);

@@ -5,28 +5,24 @@ use bevy::prelude::*;
 use crate::{
     characters::state::CharacterState,
     config::{
-        map::{GRID_Y, TILE_SIZE},
+        map::{TILE_SIZE, TOTAL_GRID_Y},
         player::PLAYER_SCALE,
     },
 };
 
 /// Z-depth constants for proper layering.
 /// The tilemap uses `with_z_offset_from_y(true)` which assigns Z based on Y position.
-/// We need to match this formula for the player and enemies.
+/// We need to match this formula for all characters (player and enemies).
 const NODE_SIZE_Z: f32 = 1.0; // Same as tilemap generator
 const CHARACTER_BASE_Z: f32 = 4.0; // Match props layer Z range
 const CHARACTER_Z_OFFSET: f32 = 0.5; // Small offset to stay above ground props
 
-/// System to update player depth based on Y position.
-///
-/// Objects with lower Y (further down screen) get higher Z (rendered in front).
-/// This creates proper occlusion when walking behind trees.
 pub fn update_character_depth(
     mut character_query: Query<&mut Transform, (With<CharacterState>, Changed<Transform>)>,
 ) {
     // Map dimensions for normalization
-    let map_height = TILE_SIZE * GRID_Y as f32;
-    let map_y0 = -TILE_SIZE * GRID_Y as f32 / 2.0; // Map origin Y (centered)
+    let map_height = TILE_SIZE * TOTAL_GRID_Y as f32;
+    let map_y0 = -TILE_SIZE * TOTAL_GRID_Y as f32 / 2.0;
 
     // Character sprite height for feet position calculation
     let character_sprite_height = 64.0 * PLAYER_SCALE;

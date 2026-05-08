@@ -34,7 +34,7 @@ strip = "debuginfo"
 [dependencies]
 bevy = { version = "0.18.0", features = ["dynamic_linking"] }
 bevy_common_assets = { version = "0.16.0", features = ["ron"] }
-bevy_procedural_tilemaps = "0.2.0"
+bevy_procedural_tilemaps = "0.3.0"
 pathfinding = "4.15.0"
 rand = "0.8"
 serde = { version = "1.0.228", features = ["derive"] }
