@@ -1,5 +1,6 @@
-use super::power_type::PowerType;
 use bevy::prelude::*;
+
+use super::power_type::PowerType;
 
 /// Event triggered when a projectile hits a target entity.
 #[derive(Event)]

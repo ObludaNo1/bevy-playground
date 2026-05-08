@@ -2,11 +2,11 @@ pub mod components;
 pub mod material;
 pub mod systems;
 
-use crate::state::GameState;
 use bevy::{prelude::*, sprite_render::Material2dPlugin};
-
 pub use material::*;
 pub use systems::*;
+
+use crate::state::GameState;
 
 pub struct ParticlesPlugin;
 

@@ -1,9 +1,10 @@
-use crate::collision::TileType;
-use crate::inventory::ItemKind;
-use crate::map::assets::SpawnableAsset;
-use crate::map::models::TerrainModelBuilder;
-use crate::map::sockets::*;
 use bevy_procedural_tilemaps::prelude::*;
+
+use crate::{
+    collision::TileType,
+    inventory::ItemKind,
+    map::{assets::SpawnableAsset, models::TerrainModelBuilder, sockets::*},
+};
 
 fn build_dirt_layer(
     terrain_model_builder: &mut TerrainModelBuilder,
@@ -22,7 +23,7 @@ fn build_dirt_layer(
             },
             vec![SpawnableAsset::new("dirt").with_tile_type(TileType::Dirt)],
         )
-        .with_weight(20.);
+        .with_weight(20.0);
 
     socket_collection.add_connections(vec![(
         terrain_sockets.dirt.material,
@@ -64,7 +65,7 @@ fn build_grass_layer(
             },
             vec![SpawnableAsset::new("green_grass").with_tile_type(TileType::Grass)],
         )
-        .with_weight(5.);
+        .with_weight(5.0);
 
     // Outer corner template
     let green_grass_corner_out = SocketsCartesian3D::Simple {
@@ -202,7 +203,7 @@ fn build_yellow_grass_layer(
             },
             vec![SpawnableAsset::new("yellow_grass").with_tile_type(TileType::YellowGrass)],
         )
-        .with_weight(5.);
+        .with_weight(5.0);
 
     // Outer corner template
     let yellow_grass_corner_out = SocketsCartesian3D::Simple {
@@ -354,7 +355,7 @@ pub fn build_water_layer(
             },
             vec![SpawnableAsset::new("water").with_tile_type(TileType::Water)],
         )
-        .with_weight(10. * WATER_WEIGHT);
+        .with_weight(10.0 * WATER_WEIGHT);
 
     // Outer corner template
     let water_corner_out = SocketsCartesian3D::Simple {

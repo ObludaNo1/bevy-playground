@@ -1,7 +1,9 @@
 use bevy::prelude::*;
 
-use crate::characters::input::Player;
-use crate::config::camera::{CAMERA_LERP_SPEED, CAMERA_Z};
+use crate::{
+    characters::input::Player,
+    config::camera::{CAMERA_LERP_SPEED, CAMERA_Z},
+};
 
 /// Marker component for the main game camera.
 #[derive(Component)]

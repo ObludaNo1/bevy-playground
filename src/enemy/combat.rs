@@ -1,7 +1,10 @@
-use super::components::{AIBehavior, Enemy, EnemyCombat};
-use crate::characters::input::Player;
-use crate::combat::systems::{ProjectileOwner, spawn_projectile};
 use bevy::prelude::*;
+
+use super::components::{AIBehavior, Enemy, EnemyCombat};
+use crate::{
+    characters::input::Player,
+    combat::systems::{ProjectileOwner, spawn_projectile},
+};
 
 /// System that handles enemy attacks
 pub fn enemy_attack(

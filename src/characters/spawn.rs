@@ -1,15 +1,19 @@
-use crate::characters::animation::*;
-use crate::characters::collider::Collider;
-use crate::characters::config::{CharacterEntry, CharactersList};
-use crate::characters::facing::Facing;
-use crate::characters::input::Player;
-use crate::characters::physics::Velocity;
-use crate::characters::state::CharacterState;
-use crate::collision::CollisionMap;
-use crate::combat::PlayerCombat;
-use crate::combat::health::Health;
-use crate::config::player::{COLLIDER_RADIUS, PLAYER_SCALE, PLAYER_Z_POSITION};
 use bevy::prelude::*;
+
+use crate::{
+    characters::{
+        animation::*,
+        collider::Collider,
+        config::{CharacterEntry, CharactersList},
+        facing::Facing,
+        input::Player,
+        physics::Velocity,
+        state::CharacterState,
+    },
+    collision::CollisionMap,
+    combat::{PlayerCombat, health::Health},
+    config::player::{COLLIDER_RADIUS, PLAYER_SCALE, PLAYER_Z_POSITION},
+};
 
 #[derive(Resource, Default)]
 pub struct CurrentCharacterIndex {

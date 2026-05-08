@@ -1,3 +1,5 @@
+use bevy::prelude::*;
+
 use super::{
     animation::{AnimationController, AnimationTimer},
     config::CharacterEntry,
@@ -5,7 +7,6 @@ use super::{
     physics::{Velocity, calculate_velocity},
     state::CharacterState,
 };
-use bevy::prelude::*;
 
 #[derive(Component)]
 pub struct Player;

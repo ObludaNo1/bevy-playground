@@ -1,6 +1,6 @@
+use std::{collections::HashMap, fmt};
+
 use bevy::prelude::*;
-use std::collections::HashMap;
-use std::fmt;
 
 use crate::config::pickup::DEFAULT_RADIUS;
 

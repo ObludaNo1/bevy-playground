@@ -5,16 +5,15 @@ mod tile_type;
 #[cfg(debug_assertions)]
 mod debug;
 
-use crate::state::GameState;
 use bevy::prelude::*;
-
+#[cfg(debug_assertions)]
+pub use debug::DebugCollisionEnabled;
 // Re-export commonly used types
 pub use map::CollisionMap;
 pub use systems::CollisionMapBuilt;
 pub use tile_type::{TileMarker, TileType};
 
-#[cfg(debug_assertions)]
-pub use debug::DebugCollisionEnabled;
+use crate::state::GameState;
 
 /// Plugin for collision detection functionality
 pub struct CollisionPlugin;

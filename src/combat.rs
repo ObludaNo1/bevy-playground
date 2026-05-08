@@ -6,11 +6,10 @@ pub mod player_combat;
 pub mod power_type;
 pub mod systems;
 
+use bevy::prelude::*;
 pub use player_combat::PlayerCombat;
 pub use power_type::PowerType;
 pub use systems::{debug_switch_power, handle_power_input};
-
-use bevy::prelude::*;
 
 use crate::{
     combat::{

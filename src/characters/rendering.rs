@@ -2,9 +2,13 @@
 
 use bevy::prelude::*;
 
-use crate::characters::state::CharacterState;
-use crate::config::map::{GRID_Y, TILE_SIZE};
-use crate::config::player::PLAYER_SCALE;
+use crate::{
+    characters::state::CharacterState,
+    config::{
+        map::{GRID_Y, TILE_SIZE},
+        player::PLAYER_SCALE,
+    },
+};
 
 /// Z-depth constants for proper layering.
 /// The tilemap uses `with_z_offset_from_y(true)` which assigns Z based on Y position.

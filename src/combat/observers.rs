@@ -1,10 +1,11 @@
 // src/combat/observers.rs
-use super::events::{EntityDeath, ProjectileHit};
-use super::health::Health;
-use crate::characters::input::Player;
-use crate::enemy::components::Enemy;
-use crate::state::GameState;
 use bevy::prelude::*;
+
+use super::{
+    events::{EntityDeath, ProjectileHit},
+    health::Health,
+};
+use crate::{characters::input::Player, enemy::components::Enemy, state::GameState};
 
 /// Observer that handles projectile hits by applying damage to the target.
 pub fn on_projectile_hit(

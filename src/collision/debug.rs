@@ -1,7 +1,7 @@
-use super::CollisionMap;
-use crate::characters::collider::Collider;
-use crate::characters::input::Player;
 use bevy::prelude::*;
+
+use super::CollisionMap;
+use crate::characters::{collider::Collider, input::Player};
 
 /// Resource to toggle debug visualization.
 #[derive(Resource, Default)]

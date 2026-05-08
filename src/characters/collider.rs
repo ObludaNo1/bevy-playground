@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-use crate::characters::physics::Velocity;
-use crate::collision::CollisionMap;
-use crate::config::player::COLLIDER_RADIUS;
+use crate::{
+    characters::physics::Velocity, collision::CollisionMap, config::player::COLLIDER_RADIUS,
+};
 
 /// A circular collider for collision detection.
 ///

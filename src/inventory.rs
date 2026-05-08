@@ -2,11 +2,10 @@ pub mod inventory;
 pub mod systems;
 
 use bevy::prelude::*;
-
-use crate::state::GameState;
-
 pub use inventory::{Inventory, ItemKind, Pickable};
 use systems::handle_pickups;
+
+use crate::state::GameState;
 
 /// Plugin for inventory and pickup functionality.
 pub struct InventoryPlugin;

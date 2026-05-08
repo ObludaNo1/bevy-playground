@@ -1,7 +1,8 @@
 mod camera;
 
-use crate::state::GameState;
 use bevy::prelude::*;
+
+use crate::state::GameState;
 
 /// Plugin for camera systems.
 pub struct CameraPlugin;

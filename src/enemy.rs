@@ -3,10 +3,10 @@ pub mod combat;
 pub mod components;
 pub mod spawn;
 
-use crate::collision::CollisionMapBuilt;
-use crate::state::GameState;
 use bevy::prelude::*;
 use spawn::EnemiesSpawned;
+
+use crate::{collision::CollisionMapBuilt, state::GameState};
 
 pub struct EnemyPlugin;
 

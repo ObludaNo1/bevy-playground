@@ -5,11 +5,10 @@ mod loading;
 mod pause;
 mod victory;
 
-use crate::characters::config::CharactersList;
-use crate::characters::spawn::CharactersListResource;
 use bevy::prelude::*;
-
 pub use game_state::GameState;
+
+use crate::characters::{config::CharactersList, spawn::CharactersListResource};
 
 pub struct StatePlugin;
 

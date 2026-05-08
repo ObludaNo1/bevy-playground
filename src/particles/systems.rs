@@ -1,7 +1,7 @@
-use super::components::*;
-use super::material::ParticleMaterial;
 use bevy::prelude::*;
 use rand::Rng;
+
+use super::{components::*, material::ParticleMaterial};
 
 /// System to update particle emitters and spawn new particles
 pub fn update_emitters(

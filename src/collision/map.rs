@@ -1,6 +1,7 @@
-use super::tile_type::TileType;
 use bevy::prelude::*;
 use pathfinding::directed::astar::astar;
+
+use super::tile_type::TileType;
 
 /// Collision map resource that stores walkability information.
 /// Provides efficient spatial queries for movement validation.

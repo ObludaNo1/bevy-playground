@@ -1,5 +1,6 @@
-use super::health::Health;
 use bevy::prelude::*;
+
+use super::health::Health;
 
 const HEALTHBAR_WIDTH: f32 = 50.0;
 const HEALTHBAR_HEIGHT: f32 = 6.0;

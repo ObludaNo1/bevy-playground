@@ -1,5 +1,6 @@
+use std::collections::{hash_map::Entry, HashMap};
+
 use bevy::prelude::*;
-use std::collections::{HashMap, hash_map::Entry};
 
 use crate::{
     collision::{
@@ -76,11 +77,7 @@ pub fn build_collision_map(
 
     // Create the collision map
     let mut map = CollisionMap::new(
-        actual_width,
-        actual_height,
-        TILE_SIZE,
-        grid_origin_x,
-        grid_origin_y,
+        actual_width, actual_height, TILE_SIZE, grid_origin_x, grid_origin_y,
     );
 
     // Populate the map from layer tracker

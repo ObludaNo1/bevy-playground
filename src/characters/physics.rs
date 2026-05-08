@@ -1,5 +1,6 @@
-use super::{config::CharacterEntry, state::CharacterState};
 use bevy::prelude::*;
+
+use super::{config::CharacterEntry, state::CharacterState};
 
 /// Linear velocity in world units per second.
 /// Systems that want to move an entity modify this.

@@ -55,9 +55,9 @@ pub fn setup_generator(
     // 5. Spawning the Generator - Create entity with Transform and NodesSpawner
     commands.spawn((
         Transform::from_translation(Vec3 {
-            x: -TILE_SIZE * grid.size_x() as f32 / 2.,
-            y: -TILE_SIZE * grid.size_y() as f32 / 2.,
-            z: 0.,
+            x: -TILE_SIZE * grid.size_x() as f32 / 2.0,
+            y: -TILE_SIZE * grid.size_y() as f32 / 2.0,
+            z: 0.0,
         }),
         grid,
         generator,

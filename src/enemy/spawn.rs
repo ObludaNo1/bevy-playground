@@ -1,6 +1,6 @@
+use bevy::prelude::*;
+
 use super::components::{AIBehavior, Enemy, EnemyCombat, EnemyPath};
-use crate::collision::CollisionMap;
-use crate::config::enemy::{ENEMY_SCALE, ENEMY_Z_POSITION};
 use crate::{
     characters::{
         animation::{AnimationController, AnimationTimer, DEFAULT_ANIMATION_FRAME_TIME},
@@ -11,9 +11,10 @@ use crate::{
         spawn::{CharactersListResource, get_valid_spawn_position},
         state::CharacterState,
     },
+    collision::CollisionMap,
     combat::health::Health,
+    config::enemy::{ENEMY_SCALE, ENEMY_Z_POSITION},
 };
-use bevy::prelude::*;
 
 /// Spawn an enemy at the given position
 pub fn spawn_enemy(

@@ -1,13 +1,16 @@
-use super::components::{AIBehavior, Enemy, EnemyPath};
-use crate::characters::{
-    config::CharacterEntry,
-    facing::Facing,
-    input::Player,
-    physics::{Velocity, calculate_velocity},
-    state::CharacterState,
-};
-use crate::collision::CollisionMap;
 use bevy::prelude::*;
+
+use super::components::{AIBehavior, Enemy, EnemyPath};
+use crate::{
+    characters::{
+        config::CharacterEntry,
+        facing::Facing,
+        input::Player,
+        physics::{Velocity, calculate_velocity},
+        state::CharacterState,
+    },
+    collision::CollisionMap,
+};
 
 /// AI system that makes enemies follow the player using A* pathfinding
 pub fn enemy_follow_player(

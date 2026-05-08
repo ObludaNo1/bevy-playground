@@ -1,10 +1,11 @@
+use bevy::prelude::*;
+use bevy_procedural_tilemaps::prelude::*;
+
 use crate::{
     collision::{TileMarker, TileType},
     inventory::{ItemKind, Pickable},
     map::tilemap::TILEMAP,
 };
-use bevy::prelude::*;
-use bevy_procedural_tilemaps::prelude::*;
 
 #[derive(Clone)]
 pub struct SpawnableAsset {

@@ -1,9 +1,10 @@
+use bevy::prelude::*;
+
 use crate::characters::{
     config::{AnimationType, CharacterEntry},
     facing::Facing,
     state::CharacterState,
 };
-use bevy::prelude::*;
 
 // Default animation timing (10 FPS = 0.1 seconds per frame)
 pub const DEFAULT_ANIMATION_FRAME_TIME: f32 = 0.1;
@@ -27,9 +28,7 @@ impl AnimationController {
         };
 
         Some(AnimationClip::new(
-            row,
-            def.frame_count,
-            config.atlas_columns,
+            row, def.frame_count, config.atlas_columns,
         ))
     }
 }
@@ -63,11 +62,7 @@ impl AnimationClip {
 
     // Calculate the next frame, looping back to start if needed
     pub fn next(self, index: usize) -> usize {
-        if index >= self.last {
-            self.first
-        } else {
-            index + 1
-        }
+        if index >= self.last { self.first } else { index + 1 }
     }
 
     // Check if animation has completed (used for non-looping animations like Jump)

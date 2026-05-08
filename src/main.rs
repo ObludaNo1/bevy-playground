@@ -13,7 +13,6 @@ use bevy::{
     prelude::*,
     window::{Window, WindowMode, WindowPlugin},
 };
-
 use bevy_procedural_tilemaps::prelude::*;
 
 use crate::{

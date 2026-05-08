@@ -1,6 +1,7 @@
+use std::collections::HashMap;
+
 use bevy::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum AnimationType {
@@ -34,13 +35,11 @@ impl CharacterEntry {
     pub fn calculate_max_animation_row(&self) -> usize {
         self.animations
             .values()
-            .map(|def| {
-                if def.directional {
-                    def.start_row + 3
-                } else {
-                    def.start_row
-                }
-            })
+            .map(
+                |def| {
+                    if def.directional { def.start_row + 3 } else { def.start_row }
+                },
+            )
             .max()
             .unwrap_or(0)
     }

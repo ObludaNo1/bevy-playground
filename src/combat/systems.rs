@@ -1,11 +1,15 @@
-use super::player_combat::PlayerCombat;
-use super::power_type::{PowerType, PowerVisuals};
-use crate::characters::facing::Facing;
-use crate::characters::input::Player;
-use crate::combat::events::ProjectileHit;
-use crate::enemy::components::Enemy;
-use crate::particles::components::ParticleEmitter;
 use bevy::prelude::*;
+
+use super::{
+    player_combat::PlayerCombat,
+    power_type::{PowerType, PowerVisuals},
+};
+use crate::{
+    characters::{facing::Facing, input::Player},
+    combat::events::ProjectileHit,
+    enemy::components::Enemy,
+    particles::components::ParticleEmitter,
+};
 
 /// Marker for projectile effects
 #[derive(Component)]
