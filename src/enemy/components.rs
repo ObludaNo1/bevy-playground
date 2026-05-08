@@ -88,7 +88,11 @@ impl EnemyPath {
     pub fn set_path(&mut self, waypoints: Vec<Vec2>) {
         // Skip waypoint 0 - it's the enemy's current position
         // This prevents jitter from briefly facing backwards
-        let new_waypoints = if waypoints.len() > 1 { waypoints[1..].to_vec() } else { waypoints };
+        let new_waypoints = if waypoints.len() > 1 {
+            waypoints[1..].to_vec()
+        } else {
+            waypoints
+        };
 
         // // ?????
         // // If we have an existing path, check if new path is similar

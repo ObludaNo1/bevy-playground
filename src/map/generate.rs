@@ -1,14 +1,14 @@
 use std::{
     collections::HashMap,
     sync::{
-        atomic::{AtomicU32, Ordering},
         Arc,
+        atomic::{AtomicU32, Ordering},
     },
 };
 
 use bevy::{
     prelude::*,
-    tasks::{block_on, poll_once, AsyncComputeTaskPool, Task},
+    tasks::{AsyncComputeTaskPool, Task, block_on, poll_once},
 };
 use bevy_procedural_tilemaps::{
     prelude::*,

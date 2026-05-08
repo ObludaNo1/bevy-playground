@@ -1,10 +1,14 @@
 {
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
   "rust-analyzer.rustfmt.overrideCommand": [
     "rustup",
     "run",
     "nightly",
     "rustfmt",
     "--edition",
-    "2021"
+    "2024"
   ]
 }
