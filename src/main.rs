@@ -1,3 +1,4 @@
+mod audio;
 mod camera;
 mod characters;
 mod collision;
@@ -49,6 +50,7 @@ fn main() {
         .add_plugins(enemy::EnemyPlugin)
         .add_plugins(particles::ParticlesPlugin)
         .add_plugins(save::SavePlugin)
+        .add_plugins(audio::AudioManagerPlugin)
         .add_systems(Startup, prepare_tilemap_handles_resource)
         .add_systems(OnEnter(GameState::Loading), setup_generator)
         .add_systems(

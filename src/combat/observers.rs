@@ -1,11 +1,12 @@
-// src/combat/observers.rs
 use bevy::prelude::*;
 
 use super::{
     events::{EntityDeath, ProjectileHit},
     health::Health,
 };
-use crate::{characters::input::Player, enemy::components::Enemy, state::GameState};
+use crate::{
+    audio::SfxKind, characters::input::Player, enemy::components::Enemy, state::GameState,
+};
 
 /// Observer that handles projectile hits by applying damage to the target.
 pub fn on_projectile_hit(
@@ -18,6 +19,8 @@ pub fn on_projectile_hit(
     };
 
     health.take_damage(&mut commands, hit.target, hit.damage);
+
+    commands.trigger(SfxKind::Hit);
 
     info!(
         "{:?} hit for {} damage! HP: {:.0}/{:.0}",
@@ -42,6 +45,7 @@ pub fn on_entity_death(
 
     if is_player {
         info!("Player defeated! Game Over.");
+        commands.trigger(SfxKind::PlayerDeath);
         next_state.set(GameState::GameOver);
     }
 
@@ -55,6 +59,7 @@ pub fn on_entity_death(
     if is_enemy && enemies.iter().count() <= 1 {
         // This is the last enemy (despawn is deferred, so it still appears in the query)
         info!("All enemies defeated! Victory!");
+        commands.trigger(SfxKind::EnemyDeath);
         next_state.set(GameState::Victory);
     }
 }

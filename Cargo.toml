@@ -32,7 +32,7 @@ strip = "debuginfo"
 
 
 [dependencies]
-bevy = { version = "0.18.0", features = ["dynamic_linking"] }
+bevy = { version = "0.18.0", features = ["dynamic_linking", "mp3", "wav"] }
 bevy_common_assets = { version = "0.16.0", features = ["ron"] }
 bevy_procedural_tilemaps = "0.3.0"
 bincode = "1.3.0"

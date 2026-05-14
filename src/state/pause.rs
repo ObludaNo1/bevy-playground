@@ -1,7 +1,10 @@
 use bevy::prelude::*;
 
 use super::GameState;
-use crate::save::{SaveLoadUIState, ui::SaveLoadMode};
+use crate::{
+    audio::SfxKind,
+    save::{SaveLoadUIState, ui::SaveLoadMode},
+};
 
 #[derive(Component)]
 pub struct PauseMenu;
@@ -91,6 +94,7 @@ pub fn despawn_pause_menu(mut commands: Commands, query: Query<Entity, With<Paus
 }
 
 pub fn handle_pause_buttons(
+    mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
     mut ui_state: ResMut<SaveLoadUIState>,
     interaction_query: Query<(&Interaction, &PauseButton), Changed<Interaction>>,
@@ -104,6 +108,8 @@ pub fn handle_pause_buttons(
         if *interaction != Interaction::Pressed {
             continue;
         }
+
+        commands.trigger(SfxKind::ButtonClick);
 
         match button {
             PauseButton::Resume => {

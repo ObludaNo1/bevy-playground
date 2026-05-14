@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use super::inventory::{Inventory, Pickable};
-use crate::characters::input::Player;
+use crate::{audio::SfxKind, characters::input::Player};
 
 /// System that checks for and processes item pickups.
 pub fn handle_pickups(
@@ -31,6 +31,7 @@ pub fn handle_pickups(
     for (entity, kind) in collected {
         commands.entity(entity).despawn();
         let count = inventory.add(kind);
+        commands.trigger(SfxKind::Pickup);
         info!(
             " Picked up {} (total: {}) — inventory: {}",
             kind,

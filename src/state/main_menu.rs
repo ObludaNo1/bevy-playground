@@ -1,7 +1,10 @@
 use bevy::prelude::*;
 
 use super::GameState;
-use crate::save::{SaveLoadUIState, ui::SaveLoadMode};
+use crate::{
+    audio::SfxKind,
+    save::{SaveLoadUIState, ui::SaveLoadMode},
+};
 
 #[derive(Component)]
 pub struct MainMenuScreen;
@@ -83,6 +86,7 @@ pub fn despawn_main_menu(mut commands: Commands, query: Query<Entity, With<MainM
 }
 
 pub fn handle_main_menu_buttons(
+    mut commands: Commands,
     mut next_state: ResMut<NextState<GameState>>,
     mut ui_state: ResMut<SaveLoadUIState>,
     interaction_query: Query<(&Interaction, &MainMenuButton), Changed<Interaction>>,
@@ -92,6 +96,8 @@ pub fn handle_main_menu_buttons(
         if *interaction != Interaction::Pressed {
             continue;
         }
+
+        commands.trigger(SfxKind::ButtonClick);
 
         match button {
             MainMenuButton::NewGame => {

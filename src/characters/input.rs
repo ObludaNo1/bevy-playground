@@ -7,6 +7,7 @@ use super::{
     physics::{Velocity, calculate_velocity},
     state::CharacterState,
 };
+use crate::audio::SfxKind;
 
 #[derive(Component)]
 pub struct Player;
@@ -56,6 +57,7 @@ fn determine_new_state(
 
 /// Reads player input and updates movement-related components.
 pub fn handle_player_input(
+    mut commands: Commands,
     input: Res<ButtonInput<KeyCode>>,
     mut query: Query<
         (
@@ -89,6 +91,10 @@ pub fn handle_player_input(
     let new_state = determine_new_state(*state, direction, is_running, wants_jump);
     if *state != new_state {
         *state = new_state; // This triggers Changed<CharacterState>!
+
+        if new_state == CharacterState::Jumping {
+            commands.trigger(SfxKind::Jump);
+        }
     }
 
     // Step 4: Calculate velocity based on state
