@@ -85,11 +85,6 @@ pub fn spawn_particle(
             let distance = rng.gen_range(0.0..radius);
             Vec3::new(angle.cos() * distance, angle.sin() * distance, 0.0)
         }
-        EmissionShape::Cone { angle } => {
-            let cone_angle = rng.gen_range(-angle..angle);
-            let rotated = rotate_vector_2d(base_direction, cone_angle);
-            rotated * rng.gen_range(0.0..1.0)
-        }
     };
 
     let velocity = direction * speed;

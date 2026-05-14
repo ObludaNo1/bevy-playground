@@ -13,9 +13,7 @@ use crate::{
 
 /// Marker for projectile effects
 #[derive(Component)]
-pub struct ProjectileEffect {
-    pub power_type: PowerType,
-}
+pub struct ProjectileEffect {}
 
 /// Who fired a projectile determines which entities it can hit.
 #[derive(Component, Clone, Copy)]
@@ -94,7 +92,7 @@ pub fn spawn_projectile(
         primary_emitter,
         Transform::from_translation(position),
         GlobalTransform::from(Transform::from_translation(position)),
-        ProjectileEffect { power_type },
+        ProjectileEffect {},
     ));
 
     // Core particles (if the power has a core)
@@ -107,7 +105,7 @@ pub fn spawn_projectile(
             core_emitter,
             Transform::from_translation(position),
             GlobalTransform::from(Transform::from_translation(position)),
-            ProjectileEffect { power_type },
+            ProjectileEffect {},
         ));
     }
 

@@ -154,5 +154,4 @@ impl Default for ParticleConfig {
 pub enum EmissionShape {
     Point,
     Circle { radius: f32 },
-    Cone { angle: f32 },
 }
