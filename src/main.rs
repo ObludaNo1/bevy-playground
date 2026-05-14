@@ -7,6 +7,7 @@ mod enemy;
 mod inventory;
 mod map;
 mod particles;
+mod save;
 mod state;
 
 use bevy::{
@@ -16,14 +17,8 @@ use bevy::{
 
 use crate::{
     camera::CameraPlugin,
-    characters::CharactersPlugin,
-    collision::CollisionPlugin,
-    combat::CombatPlugin,
-    enemy::EnemyPlugin,
-    inventory::InventoryPlugin,
-    map::generate::{poll_map_generation, setup_generator},
-    particles::ParticlesPlugin,
-    state::{GameState, StatePlugin},
+    map::generate::{poll_map_generation, prepare_tilemap_handles_resource, setup_generator},
+    state::GameState,
 };
 
 fn main() {
@@ -45,15 +40,17 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
         )
-        .add_plugins(StatePlugin)
+        .add_plugins(state::StatePlugin)
         .add_plugins(CameraPlugin)
-        .add_plugins(CollisionPlugin)
-        .add_plugins(CharactersPlugin)
-        .add_plugins(EnemyPlugin)
-        .add_plugins(InventoryPlugin)
-        .add_systems(Startup, setup_generator)
-        .add_plugins(CombatPlugin)
-        .add_plugins(ParticlesPlugin)
+        .add_plugins(inventory::InventoryPlugin)
+        .add_plugins(collision::CollisionPlugin)
+        .add_plugins(characters::CharactersPlugin)
+        .add_plugins(combat::CombatPlugin)
+        .add_plugins(enemy::EnemyPlugin)
+        .add_plugins(particles::ParticlesPlugin)
+        .add_plugins(save::SavePlugin)
+        .add_systems(Startup, prepare_tilemap_handles_resource)
+        .add_systems(OnEnter(GameState::Loading), setup_generator)
         .add_systems(
             Update,
             poll_map_generation.run_if(in_state(GameState::Loading)),

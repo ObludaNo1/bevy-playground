@@ -1,9 +1,10 @@
 use bevy::prelude::*;
+use serde::{Deserialize, Serialize};
 
 use crate::particles::components::{EmissionShape, ParticleConfig};
 
 /// The different magical powers available
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 pub enum PowerType {
     #[default]
     Fire,
