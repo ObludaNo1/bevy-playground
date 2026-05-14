@@ -332,12 +332,10 @@ impl CollisionMap {
         None
     }
 
-    #[cfg(debug_assertions)]
     pub fn width(&self) -> i32 {
         self.width
     }
 
-    #[cfg(debug_assertions)]
     pub fn height(&self) -> i32 {
         self.height
     }
