@@ -7,6 +7,8 @@ mod config;
 mod enemy;
 mod inventory;
 mod map;
+mod module_bindings;
+mod network;
 mod particles;
 mod save;
 mod state;
@@ -65,11 +67,17 @@ fn main() {
         .add_plugins(particles::ParticlesPlugin)
         .add_plugins(save::SavePlugin)
         .add_plugins(audio::AudioManagerPlugin)
+        .add_plugins(network::NetworkPlugin)
         .add_systems(Startup, prepare_tilemap_handles_resource)
-        .add_systems(OnEnter(GameState::Loading), setup_generator)
+        .add_systems(
+            OnEnter(GameState::Loading),
+            setup_generator.run_if(not(state::in_multiplayer)),
+        )
         .add_systems(
             Update,
-            poll_map_generation.run_if(in_state(GameState::Loading)),
+            poll_map_generation
+                .run_if(in_state(GameState::Loading))
+                .run_if(not(state::in_multiplayer)),
         )
         .run();
 }

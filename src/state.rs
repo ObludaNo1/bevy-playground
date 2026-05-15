@@ -7,7 +7,7 @@ mod pause;
 mod victory;
 
 use bevy::prelude::*;
-pub use game_state::GameState;
+pub use game_state::{GameMode, GameState, in_multiplayer};
 pub use pause::PauseMenu;
 
 use crate::{
@@ -21,6 +21,7 @@ pub struct StatePlugin;
 impl Plugin for StatePlugin {
     fn build(&self, app: &mut App) {
         app.init_state::<GameState>()
+            .insert_resource(GameMode::SinglePlayer)
             .add_systems(
                 OnEnter(GameState::MainMenu),
                 (ending::cleanup_game_world, main_menu::spawn_main_menu).chain(),
@@ -35,7 +36,10 @@ impl Plugin for StatePlugin {
                 main_menu::handle_main_menu_hover.run_if(in_state(GameState::MainMenu)),
             )
             // Loading state systems
-            .add_systems(OnEnter(GameState::Loading), loading::spawn_loading_screen)
+            .add_systems(
+                OnEnter(GameState::Loading),
+                loading::spawn_loading_screen.run_if(not(in_multiplayer)),
+            )
             .add_systems(
                 Update,
                 (check_assets_loaded, loading::animate_loading)
